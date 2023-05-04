@@ -1,7 +1,9 @@
 package lt.arturas.androidtopics
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -11,6 +13,14 @@ class MainActivity : AppCompatActivity() {
 
         //Timber.i("onCreate")
         timber("onCreate")
+
+        val clickButton: Button = findViewById(R.id.button)
+
+
+        clickButton.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java))
+        }
+
     }
 
     override fun onStart() {
