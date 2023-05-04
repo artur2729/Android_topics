@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
 
         clickButton.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
+            startActivity(Intent(this, SecondActivity2::class.java))
         }
 
     }
