@@ -26,18 +26,7 @@ class MainActivity : ActivityLifecycles() {
         updateAdapter(items)
 
         setClickOpenItemDetails()
-
         setClickOpenSecondActivity()
-
-
-        adapter.add(items)
-        adapter.add(Item(101, "text01","text02"))
-        adapter.add(
-            Item(102, "text01","text02"),
-            Item(103, "text01","text02"),
-            Item(104, "text01","text02"),
-            Item(105, "text01","text02")
-        )
         
     }
 
