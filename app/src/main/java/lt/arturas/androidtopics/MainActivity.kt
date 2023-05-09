@@ -21,6 +21,7 @@ class MainActivity : ActivityLifecycles() {
 
         setClickOpenSecondActivity()
 
+
         val items = mutableListOf<Item>()
         generateListOfItems(items)
 
