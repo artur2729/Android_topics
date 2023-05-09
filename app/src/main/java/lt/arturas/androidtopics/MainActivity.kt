@@ -6,59 +6,21 @@ import android.os.Bundle
 import android.widget.Button
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ActivityLifecycles() {
+
+    lateinit var openSecondActivityButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        openSecondActivityButton = findViewById(R.id.button)
 
-        //Timber.i("onCreate")
-        timber("onCreate")
+        setClickOpenSecondActivity()
+    }
 
-        val clickButton: Button = findViewById(R.id.button)
-
-
-        clickButton.setOnClickListener {
-            startActivity(Intent(this, SecondActivity2::class.java))
+    private fun setClickOpenSecondActivity() {
+        openSecondActivityButton.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java))
         }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        timber("onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        timber("onResume")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        timber("onStop")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        timber("onPause")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        timber("onDestroy")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        timber("onRestart")
-    }
-
-    fun timber(text: String){
-        Timber.i("""
-            *******************************
-            * ${this.localClassName}
-            * $text
-            *******************************
-        """.trimIndent())
     }
 }
