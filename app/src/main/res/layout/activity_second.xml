@@ -22,6 +22,7 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:hint="id"
+            android:saveEnabled="false"
             android:textSize="20sp" />
 
         <EditText
@@ -31,6 +32,7 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:hint="text01"
+            android:saveEnabled="false"
             android:textSize="20sp" />
 
         <EditText
@@ -40,6 +42,7 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:hint="text02"
+            android:saveEnabled="false"
             android:textSize="20sp" />
     </LinearLayout>
 
