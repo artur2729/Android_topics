@@ -10,10 +10,12 @@ import timber.log.Timber
 
 class SecondActivity2 : ActivityLifecycles() {
 
-    lateinit var idEditText: EditText
-    lateinit var text01EditText: EditText
-    lateinit var text02EditText: EditText
-    lateinit var closeButton: Button
+    private lateinit var idEditText: EditText
+    private lateinit var text01EditText: EditText
+    private lateinit var text02EditText: EditText
+    private lateinit var closeButton: Button
+    private lateinit var saveButton: Button
+    private var finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,7 @@ class SecondActivity2 : ActivityLifecycles() {
         text01EditText = findViewById(R.id.text01EditText)
         text02EditText = findViewById(R.id.text02EditText)
         closeButton = findViewById(R.id.closeButton)
+        saveButton = findViewById(R.id.saveButton)
 
        /*
        if (savedInstanceState != null){
@@ -38,6 +41,7 @@ class SecondActivity2 : ActivityLifecycles() {
 
         getIntentExtra()
         setClickListenerOfCloseButton()
+        setClickListenerOfSaveButton()
 
     }
 
@@ -61,25 +65,34 @@ class SecondActivity2 : ActivityLifecycles() {
     }
 
     private fun getIntentExtra() {
-        idEditText.setText(
-            intent.getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_ID, -1).toString()
-        )
-        text01EditText.setText(
-            intent.getStringExtra(MainActivity.MAIN_ACTIVITY_ITEM_TEXT01)
-        )
-        text02EditText.setText(
-            intent.getStringExtra(MainActivity.MAIN_ACTIVITY_ITEM_TEXT02)
-        )
+
+        var itemId: Int = intent.getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_ID, -1)
+        var itemText01 = intent.getStringExtra(MainActivity.MAIN_ACTIVITY_ITEM_TEXT01) ?: ""
+        var itemText02 = intent.getStringExtra(MainActivity.MAIN_ACTIVITY_ITEM_TEXT02) ?: ""
+
+        if(itemId >= 0){
+            idEditText.setText(itemId.toString())
+            text01EditText.setText(itemText01)
+            text02EditText.setText(itemText02)
+        }else{
+            finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW
+        }
     }
 
     private fun setClickListenerOfCloseButton() {
         closeButton.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun setClickListenerOfSaveButton() {
+        saveButton.setOnClickListener {
             val finishIntent = Intent()
 
             finishIntent.putExtra(SECOND_ACTIVITY_ITEM_ID, (idEditText.text.toString()).toInt())
             finishIntent.putExtra(SECOND_ACTIVITY_ITEM_TEXT01, text01EditText.text.toString())
             finishIntent.putExtra(SECOND_ACTIVITY_ITEM_TEXT02, text02EditText.text.toString())
-            setResult(RESULT_OK, finishIntent)
+            setResult(finishIntentStatus, finishIntent)
             finish()
         }
     }
@@ -88,5 +101,11 @@ class SecondActivity2 : ActivityLifecycles() {
         const val   SECOND_ACTIVITY_ITEM_ID = "lt.arturas.androidtopics.secondactivity_item_id"
         const val   SECOND_ACTIVITY_ITEM_TEXT01 = "lt.arturas.androidtopics.secondactivity_item_text01"
         const val   SECOND_ACTIVITY_ITEM_TEXT02 = "lt.arturas.androidtopics.secondactivity_item_text02"
+
+        const val   SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW =
+            101
+
+        const val   SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE =
+            102
     }
 }
