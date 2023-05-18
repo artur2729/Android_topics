@@ -39,6 +39,18 @@ class MainActivity : ActivityLifecycles() {
         setClickOpenSecondActivity()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        timber("onSaveInstanceState \nindex value is $itemIndex")
+        outState.putInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX,itemIndex)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        itemIndex = savedInstanceState.getInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX)
+        timber("onRestoreInstanceState \nindex value is $itemIndex")
+        super.onRestoreInstanceState(savedInstanceState)
+    }
+
     private fun generateListOfItems(items: MutableList<Item>) {
         for (item in 1..10) {
             items.add(
@@ -123,7 +135,9 @@ class MainActivity : ActivityLifecycles() {
 
     companion object {
         const val MAIN_ACTIVITY_ITEM_ID = "package lt.arturas.androidtopics.androidtopics_item_id"
-        const val MAIN_ACTIVITY_ITEM_TEXT01 = "package lt.arturas.androidtopicsandroidtopics_item_text01"
+        const val MAIN_ACTIVITY_ITEM_TEXT01 = "package lt.arturas.androidtopics.androidtopics_item_text01"
         const val MAIN_ACTIVITY_ITEM_TEXT02 = "package lt.arturas.androidtopics.androidtopics_item_text02"
+        const val MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX =
+            "package lt.arturas.androidtopics.androidtopics_save_instance_state_index"
     }
 }
