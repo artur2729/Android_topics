@@ -12,8 +12,9 @@ class CustomAdapter(context: Context) : BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
     private val list = mutableListOf<Item>()
-    var maxId: Int = list.maxBy {item -> item.id}.id
-    private set
+
+    //var maxId: Int = list.maxBy {item -> item.id}.id
+    //private set
 
     /*
     fun add(item: Item){
@@ -21,6 +22,13 @@ class CustomAdapter(context: Context) : BaseAdapter() {
         notifyDataSetChanged()
     }
      */
+
+    var maxId: Int = if(list.isEmpty()){
+        -1
+    }else{
+        list.maxBy {item -> item.id}.id
+    }
+        private set
 
     fun add(vararg item: Item){
         list.addAll(item)

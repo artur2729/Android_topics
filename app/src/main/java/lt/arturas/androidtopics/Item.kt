@@ -1,18 +1,25 @@
 package lt.arturas.androidtopics
 
+import android.os.Parcelable
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 
+@Parcelize
 data class Item(
     private val _id: Int,
     private var _text01: String,
     private var _text02: String,
     private var _creationDate: LocalDateTime = LocalDateTime.now(),
     private var _updateDate: LocalDateTime = LocalDateTime.now()
-) {
+): Parcelable {
+
+    @IgnoredOnParcel
     var id = this._id
     private set
 
 
+    @IgnoredOnParcel
     var text01: String = ""
         get():String {
             return _text01
@@ -23,6 +30,7 @@ data class Item(
             this._updateDate = LocalDateTime.now()
         }
 
+    @IgnoredOnParcel
     var text02: String
         get():String {
             return _text02
@@ -34,9 +42,17 @@ data class Item(
             this._updateDate = LocalDateTime.now()
         }
 
+    @IgnoredOnParcel
     var creationDate = this._creationDate
     private set
 
-    var updateDate = this._updateDate
-    private set
+    //var updateDate = this._updateDate
+    //private set
+
+    @IgnoredOnParcel
+    var updateDate: LocalDateTime
+    get() = this._updateDate
+    private set (value){
+        this._updateDate = value
+    }
 }
