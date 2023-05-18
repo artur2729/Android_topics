@@ -12,6 +12,8 @@ class CustomAdapter(context: Context) : BaseAdapter() {
 
     private val inflater = LayoutInflater.from(context)
     private val list = mutableListOf<Item>()
+    var maxId: Int = list.maxBy {item -> item.id}.id
+    private set
 
     /*
     fun add(item: Item){
@@ -69,6 +71,8 @@ class CustomAdapter(context: Context) : BaseAdapter() {
         binding.idTextView.text = list[position].id.toString()
         binding.text01TextView.text = list[position].text01
         binding.text02TextView.text = list[position].text02
+        binding.creationDateTextView.text = list[position].creationDate.toString()
+        binding.updateDateTextView.text = list[position].updateDate.toString()
 
 
         return view

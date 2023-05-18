@@ -31,4 +31,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/creationDateTextView"
+        android:text="creation date"
+        android:layout_marginLeft="96dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/updateDateTextView"
+        android:text="update date"
+        android:layout_marginLeft="96dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
 </LinearLayout>

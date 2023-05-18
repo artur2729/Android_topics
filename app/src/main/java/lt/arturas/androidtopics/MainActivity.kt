@@ -107,10 +107,10 @@ class MainActivity : ActivityLifecycles() {
             when(resul.resultCode){
                 SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW -> {
                     val item = Item(
-                        id = 111,
-                        text01 = resul.data
+                        _id = adapter.maxId.inc(),
+                        _text01 = resul.data
                             ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT01) ?:"",
-                        text02 = resul.data
+                        _text02 = resul.data
                             ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT02) ?:""
                     )
 
@@ -118,11 +118,11 @@ class MainActivity : ActivityLifecycles() {
                 }
                 SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE -> {
                     val item = Item(
-                        id = resul.data
+                        _id = resul.data
                             ?.getIntExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_ID, 0)?: 0,
-                        text01 = resul.data
+                        _text01 = resul.data
                             ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT01) ?:"",
-                        text02 = resul.data
+                        _text02 = resul.data
                             ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT02) ?:""
                     )
 
