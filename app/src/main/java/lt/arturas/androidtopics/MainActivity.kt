@@ -8,28 +8,23 @@ import android.widget.ListView
 import timber.log.Timber
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.net.Uri
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import lt.arturas.androidtopics.databinding.ActivityMainBinding
 
 class MainActivity : ActivityLifecycles() {
 
-    //private lateinit var openSecondActivityButton: Button
     private lateinit var adapter: CustomAdapter
-
-    //private lateinit var itemListView: ListView
-    private var itemIndex = -1
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //openSecondActivityButton = findViewById(R.id.button)
-        //itemListView = findViewById(R.id.itemListView)
 
         val items = mutableListOf<Item>()
         generateListOfItems(items)
@@ -39,18 +34,6 @@ class MainActivity : ActivityLifecycles() {
 
         setClickOpenItemDetails()
         setClickOpenSecondActivity()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        timber("onSaveInstanceState \nindex value is $itemIndex")
-        outState.putInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX, itemIndex)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        itemIndex = savedInstanceState.getInt(MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX)
-        timber("onRestoreInstanceState \nindex value is $itemIndex")
-        super.onRestoreInstanceState(savedInstanceState)
     }
 
     private fun generateListOfItems(items: MutableList<Item>) {
@@ -83,21 +66,20 @@ class MainActivity : ActivityLifecycles() {
 
     private fun setClickOpenSecondActivity() {
         binding.button.setOnClickListener {
-//            startActivity(Intent(this, SecondActivity::class.java))
-            startActivityForResult.launch(Intent(this, SecondActivity2::class.java))
+            val intent = Intent(this, SecondActivity2::class.java)
+            val id = adapter.getMaxId().inc()
+            intent.putExtra(MAIN_ACTIVITY_ITEM_INTENT_ID, id)
+
+            startActivityForResult.launch(intent)
         }
     }
 
     private fun setClickOpenItemDetails() {
         binding.itemListView.setOnItemClickListener { adapterView, view, position, l ->
             val item: Item = adapterView.getItemAtPosition(position) as Item
-            itemIndex = position
 
             val itemIntent = Intent(this, SecondActivity2::class.java)
-            itemIntent.putExtra(MAIN_ACTIVITY_ITEM_ID, item)
-            //itemIntent.putExtra(MAIN_ACTIVITY_ITEM_ID, item.id)   - don't need due to parcable
-            //itemIntent.putExtra(MAIN_ACTIVITY_ITEM_TEXT01, item.text01)
-            //itemIntent.putExtra(MAIN_ACTIVITY_ITEM_TEXT02, item.text02)
+            itemIntent.putExtra(MAIN_ACTIVITY_ITEM_INTENT_OBJECT, item)
 
             startActivityForResult.launch(itemIntent)
         }
@@ -105,67 +87,46 @@ class MainActivity : ActivityLifecycles() {
 
     private val startActivityForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { resul ->
+
+            val item: Item?
+
             when (resul.resultCode) {
                 SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW -> {
-                    //val item = Item(
-                    //    _id = adapter.maxId.inc(),
-                    //    _text01 = resul.data
-                    //        ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT01) ?: "",
-                    //    _text02 = resul.data
-                    //        ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT02) ?: ""
-                    //)
-
-
-                        val item: Item = getExtraFromParcelable(intent)
-
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                        item = resul.data?.getParcelableExtra(MAIN_ACTIVITY_ITEM_ID, Item::class.java)
-                        ?: Item(0,"","")
-                    }else{
-                        item = resul.data?.getParcelableExtra(MAIN_ACTIVITY_ITEM_ID)
-                        ?: Item(0,"","")
-                    }
-
-                    adapter.add(item)
-                }
-                SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE -> {
-                    val item = Item(
-                        _id = resul.data
-                            ?.getIntExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_ID, 0) ?: 0,
-                        _text01 = resul.data
-                            ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT01) ?: "",
-                        _text02 = resul.data
-                            ?.getStringExtra(SecondActivity2.SECOND_ACTIVITY_ITEM_TEXT02) ?: ""
+                    item = getExtraFromParcelable(
+                        resul.data,
+                        SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT
                     )
 
-                    if (itemIndex >= 0) {
-                        adapter.update(itemIndex, item)
+                    if (item != null) {
+                        adapter.add(item)
                     }
+                }
+
+                SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE -> {
+                    item = getExtraFromParcelable(
+                        resul.data,
+                        SecondActivity2.SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT
+                    )
+                    adapter.update(item)
                 }
             }
         }
 
-    private fun getExtraFromParcelable(resul: Intent?) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            resul?.getParcelableExtra(MAIN_ACTIVITY_ITEM_ID, Item::class.java)
-                ?: Item(0,"","")
-        }else{
-            resul?.getParcelableExtra(MAIN_ACTIVITY_ITEM_ID)
-                ?: Item(0,"","")
-        }
-    }
+    //fun watchYoutubeVideo(context: Context, id: String) {
+    //    val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+    //    val webIntent = Intent(
+    //        Intent.ACTION_VIEW,
+    //        Uri.parse("http://www.youtube.com/watch?v=$id")
+    //    )
+    //    try {
+    //        context.startActivity(appIntent)
+    //    } catch (ex: ActivityNotFoundException) {
+    //        context.startActivity(webIntent)
+    //    }
+    //}
 
     companion object {
-        const val MAIN_ACTIVITY_ITEM_ID = "package lt.arturas.androidtopics.androidtopics_item_id"
-        const val MAIN_ACTIVITY_ITEM_TEXT01 =
-            "package lt.arturas.androidtopics.androidtopics_item_text01"
-        const val MAIN_ACTIVITY_ITEM_TEXT02 =
-            "package lt.arturas.androidtopics.androidtopics_item_text02"
-        const val MAIN_ACTIVITY_ITEM_CREATION_DATE =
-            "package lt.arturas.androidtopics.androidtopics_item_creation_date"
-        const val MAIN_ACTIVITY_ITEM_UPDATE_DATE =
-            "package lt.arturas.androidtopics.androidtopics_item_update_date"
-        const val MAIN_ACTIVITY_SAVE_INSTANCE_STATE_ITEM_INDEX =
-            "package lt.arturas.androidtopics.androidtopics_save_instance_state_index"
+        const val MAIN_ACTIVITY_ITEM_INTENT_OBJECT = "package lt.arturas.androidtopics_item_intent_id"
+        const val MAIN_ACTIVITY_ITEM_INTENT_ID = "package lt.arturas.androidtopics_item_intent_object"
     }
 }

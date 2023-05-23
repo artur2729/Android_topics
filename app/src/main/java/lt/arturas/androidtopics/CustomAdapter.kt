@@ -13,75 +13,64 @@ class CustomAdapter(context: Context) : BaseAdapter() {
     private val inflater = LayoutInflater.from(context)
     private val list = mutableListOf<Item>()
 
-    //var maxId: Int = list.maxBy {item -> item.id}.id
-    //private set
-
-    /*
-    fun add(item: Item){
-        list.add(item)
-        notifyDataSetChanged()
-    }
-     */
-
-    var maxId: Int = if(list.isEmpty()){
+    fun getMaxId() = if (list.isEmpty()) {
         -1
-    }else{
-        list.maxBy {item -> item.id}.id
+    } else {
+        list.maxBy { it.id }.id
     }
-        private set
 
-    fun add(vararg item: Item){
+    fun add(vararg item: Item) {
         list.addAll(item)
         notifyDataSetChanged()
     }
 
-    fun add(items: List<Item>){
+    fun add(items: List<Item>) {
         list.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun update(index: Int, item: Item){
-        list.set(index,item)
-        notifyDataSetChanged()
+    fun update(item: Item?) {
+        if (item != null) {
+            val index = list.indexOfFirst { it.id == item.id }
+            if (index >= 0) {
+                list[index] = item
+                notifyDataSetChanged()
+            }
+        }
     }
 
-    fun clear(){
+    fun clear() {
         list.clear()
         notifyDataSetChanged()
     }
 
-    fun remove(vararg item: Item){
+    fun remove(vararg item: Item) {
         list.removeAll(item)
         notifyDataSetChanged()
     }
 
-    fun remove(items: List<Item>){
+    fun remove(items: List<Item>) {
         list.removeAll(items)
         notifyDataSetChanged()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        //val view = convertView ?: inflater.inflate(R.layout.item,parent, false)
         var view = convertView
         val binding: ItemBinding
-        if(view == null){
+
+        if (view == null) {
             binding = ItemBinding.inflate(inflater, parent, false)
             view = binding.root
             view.tag = binding
-        }else{
+        } else {
             binding = view.tag as ItemBinding
         }
-
-        //view.findViewById<TextView>(R.id.idTextView).text = list[position].id.toString()
-        //view.findViewById<TextView>(R.id.text01TextView).text = list[position].text01
-        //view.findViewById<TextView>(R.id.text02TextView).text = list[position].text02
 
         binding.idTextView.text = list[position].id.toString()
         binding.text01TextView.text = list[position].text01
         binding.text02TextView.text = list[position].text02
         binding.creationDateTextView.text = list[position].creationDate.toString()
         binding.updateDateTextView.text = list[position].updateDate.toString()
-
 
         return view
     }
