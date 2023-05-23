@@ -121,12 +121,12 @@ class SecondActivity2 : ActivityLifecycles() {
 
     companion object {
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT =
-            "lt.vcs.androidtopics.secondactivity_item_intent_return_object"
-        const val SECOND_ACTIVITY_ITEM_ID = "lt.vcs.androidtopics.secondactivity_item_id"
-        const val SECOND_ACTIVITY_ITEM_TEXT01 = "lt.vcs.androidtopics.secondactivity_item_text01"
-        const val SECOND_ACTIVITY_ITEM_TEXT02 = "lt.vcs.androidtopics.secondactivity_item_text02"
+            "lt.arturas.androidtopics.secondactivity_item_intent_return_object"
+        const val SECOND_ACTIVITY_ITEM_ID = "lt.arturas.androidtopics.secondactivity_item_id"
+        const val SECOND_ACTIVITY_ITEM_TEXT01 = "lt.arturas.androidtopics.secondactivity_item_text01"
+        const val SECOND_ACTIVITY_ITEM_TEXT02 = "lt.arturas.androidtopics.secondactivity_item_text02"
         const val SECOND_ACTIVITY_FINISH_INTENT_STATUS =
-            "lt.vcs.androidtopics.secondactivity_finish_intent_status"
+            "lt.arturas.androidtopics.secondactivity_finish_intent_status"
 
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW = 101
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE = 102
