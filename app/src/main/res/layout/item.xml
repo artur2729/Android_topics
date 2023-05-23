@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="item"
+            type="lt.arturas.androidtopics.Item" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,40 +19,41 @@
 
         <TextView
             android:id="@+id/idTextView"
-            android:text="id"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(item.id)}"/>
 
         <TextView
             android:id="@+id/text01TextView"
-            android:text="text01"
             android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@{item.text01}"/>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/text02TextView"
-        android:text="text02"
         android:layout_marginLeft="32dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@{item.text02}"
+        />
 
     <TextView
         android:id="@+id/creationDateTextView"
-        android:text="creation date"
         android:layout_marginLeft="96dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@{item.creationDate.toString}"
         />
 
     <TextView
         android:id="@+id/updateDateTextView"
-        android:text="update date"
         android:layout_marginLeft="96dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@{item.updateDate.toString}"/>
 
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

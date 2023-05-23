@@ -66,11 +66,7 @@ class CustomAdapter(context: Context) : BaseAdapter() {
             binding = view.tag as ItemBinding
         }
 
-        binding.idTextView.text = list[position].id.toString()
-        binding.text01TextView.text = list[position].text01
-        binding.text02TextView.text = list[position].text02
-        binding.creationDateTextView.text = list[position].creationDate.toString()
-        binding.updateDateTextView.text = list[position].updateDate.toString()
+        binding.item = list[position]
 
         return view
     }

@@ -2,40 +2,32 @@ package lt.arturas.androidtopics
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.view.View
+import androidx.databinding.DataBindingUtil
+import lt.arturas.androidtopics.databinding.ActivitySecondBinding
 
 class SecondActivity2 : ActivityLifecycles() {
 
-    private lateinit var idEditText: TextView
-    private lateinit var text01EditText: EditText
-    private lateinit var text02EditText: EditText
-    private lateinit var closeButton: Button
-    private lateinit var saveButton: Button
+    private lateinit var binding: ActivitySecondBinding
     private var finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE
-    private lateinit var item: Item
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        idEditText = findViewById(R.id.idEditText)
-        text01EditText = findViewById(R.id.text01EditText)
-        text02EditText = findViewById(R.id.text02EditText)
-        closeButton = findViewById(R.id.closeButton)
-        saveButton = findViewById(R.id.saveButton)
+//        binding = DataBin .setContentView(this,R.layout.activity_second)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_second)
+        binding.item = getIntentExtra()
+        binding.secondActivity = this
 
-        getIntentExtra()
-        setClickListenerOfCloseButton()
-        setClickListenerOfSaveButton()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.run {
-            putString(SECOND_ACTIVITY_ITEM_ID, idEditText.text.toString())
-            putString(SECOND_ACTIVITY_ITEM_TEXT01, text01EditText.text.toString())
-            putString(SECOND_ACTIVITY_ITEM_TEXT02, text02EditText.text.toString())
+            //putString(SECOND_ACTIVITY_ITEM_ID, idEditText.text.toString())
+            //putString(SECOND_ACTIVITY_ITEM_TEXT01, text01EditText.text.toString())
+            //putString(SECOND_ACTIVITY_ITEM_TEXT02, text02EditText.text.toString())
+            putParcelable(SECOND_ACTIVITY_ITEM_SAVE_INSTANCE_STATE, binding.item)
             putInt(SECOND_ACTIVITY_FINISH_INTENT_STATUS, finishIntentStatus)
         }
         super.onSaveInstanceState(outState)
@@ -45,83 +37,67 @@ class SecondActivity2 : ActivityLifecycles() {
         super.onRestoreInstanceState(savedInstanceState)
 
         with(savedInstanceState) {
-            idEditText.setText(this.getString(SECOND_ACTIVITY_ITEM_ID))
-            text01EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT01))
-            text02EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT02))
+            //idEditText.setText(this.getString(SECOND_ACTIVITY_ITEM_ID))
+            //text01EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT01))
+            //text02EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT02))
             finishIntentStatus = this.getInt(SECOND_ACTIVITY_FINISH_INTENT_STATUS)
         }
     }
 
-    private fun getIntentExtra() {
+    private fun getIntentExtra(): Item {
         if (intent.hasExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_OBJECT)) {
 
-            item = getExtraFromParcelable(
+            return getExtraFromParcelable(
                 intent,
                 MainActivity.MAIN_ACTIVITY_ITEM_INTENT_OBJECT
             ) ?: Item(-1, "", "")
 
-            idEditText.setText(item.id.toString())
-            text01EditText.setText(item.text01)
-            text02EditText.setText(item.text02)
+            //idEditText.setText(item.id.toString())
+            //text01EditText.setText(item.text01)
+            //text02EditText.setText(item.text02)
 
 
         } else if (intent.hasExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID)) {
 
-            idEditText.setText(
+            return Item(
                 intent
-                    .getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID, -1)
-                    .toString()
+                    .getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID, -1),
+                "",
+                ""
+
             )
-            finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW
+            //finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW
 
         } else {
 
             finishIntentStatus = RESULT_CANCELED
+            return Item(-1,"","")
         }
     }
 
-    private fun setClickListenerOfCloseButton() {
-        closeButton.setOnClickListener {
+    fun onClickCloseButton(view: View) {
             finish()
-        }
     }
 
-    private fun setClickListenerOfSaveButton() {
-        saveButton.setOnClickListener {
+    fun onClickSaveButton() {
 
             val finishIntent = Intent()
 
-            when (finishIntentStatus) {
-                SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW -> {
-                    val item = Item(
-                        idEditText.text.toString().toInt(),
-                        text01EditText.text.toString(),
-                        text02EditText.text.toString()
-                    )
-                    finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, item)
-                }
+            finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, binding.item)
 
-                SECOND_ACTIVITY_ITEM_INTENT_RETURN_UPDATE -> {
-
-                    item.text01 = text01EditText.text.toString()
-                    item.text02 = text02EditText.text.toString()
-
-                    finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, item)
-                }
-            }
-
-            if (idEditText.text.toString().toInt() < 0) {
+            if (binding.idEditText.text.toString().toInt() < 0) {
                 finishIntentStatus = RESULT_CANCELED
             }
 
             setResult(finishIntentStatus, finishIntent)
             finish()
-        }
     }
 
     companion object {
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT =
             "lt.arturas.androidtopics.secondactivity_item_intent_return_object"
+        const val SECOND_ACTIVITY_ITEM_SAVE_INSTANCE_STATE =
+        "lt.arturas.androidtopics.secondactivity_item"
         const val SECOND_ACTIVITY_ITEM_ID = "lt.arturas.androidtopics.secondactivity_item_id"
         const val SECOND_ACTIVITY_ITEM_TEXT01 = "lt.arturas.androidtopics.secondactivity_item_text01"
         const val SECOND_ACTIVITY_ITEM_TEXT02 = "lt.arturas.androidtopics.secondactivity_item_text02"
