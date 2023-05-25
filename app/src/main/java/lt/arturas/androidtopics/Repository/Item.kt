@@ -1,4 +1,4 @@
-package lt.arturas.androidtopics
+package lt.arturas.androidtopics.Repository
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -1,11 +1,11 @@
-package lt.arturas.androidtopics
+package lt.arturas.androidtopics.MainActivity
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
+import lt.arturas.androidtopics.Repository.Item
 import lt.arturas.androidtopics.databinding.ItemBinding
 
 class CustomAdapter(context: Context) : BaseAdapter() {
