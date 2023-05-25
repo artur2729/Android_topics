@@ -34,6 +34,7 @@ class MainActivity : ActivityLifecycles() {
 
         setClickOpenItemDetails()
         setClickOpenSecondActivity()
+        //code from dev branch
     }
 
     private fun generateListOfItems(items: MutableList<Item>) {
