@@ -20,6 +20,8 @@ class SecondActivity2 : ActivityLifecycles() {
         binding.item = getIntentExtra()
         binding.secondActivity = this
 
+
+        getIntentExtra()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -37,9 +39,7 @@ class SecondActivity2 : ActivityLifecycles() {
         super.onRestoreInstanceState(savedInstanceState)
 
         with(savedInstanceState) {
-            //idEditText.setText(this.getString(SECOND_ACTIVITY_ITEM_ID))
-            //text01EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT01))
-            //text02EditText.setText(this.getString(SECOND_ACTIVITY_ITEM_TEXT02))
+            binding.item = getParcelable(SECOND_ACTIVITY_ITEM_SAVE_INSTANCE_STATE)
             finishIntentStatus = this.getInt(SECOND_ACTIVITY_FINISH_INTENT_STATUS)
         }
     }
@@ -52,10 +52,6 @@ class SecondActivity2 : ActivityLifecycles() {
                 MainActivity.MAIN_ACTIVITY_ITEM_INTENT_OBJECT
             ) ?: Item(-1, "", "")
 
-            //idEditText.setText(item.id.toString())
-            //text01EditText.setText(item.text01)
-            //text02EditText.setText(item.text02)
-
 
         } else if (intent.hasExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID)) {
 
@@ -64,7 +60,6 @@ class SecondActivity2 : ActivityLifecycles() {
                     .getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID, -1),
                 "",
                 ""
-
             )
             //finishIntentStatus = SECOND_ACTIVITY_ITEM_INTENT_RETURN_NEW
 
