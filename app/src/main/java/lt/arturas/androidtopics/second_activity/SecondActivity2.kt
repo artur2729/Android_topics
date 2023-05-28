@@ -1,4 +1,4 @@
-package lt.arturas.androidtopics.SecondActivity
+package lt.arturas.androidtopics.second_activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +7,9 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import lt.arturas.androidtopics.ActivityLifecycles
-import lt.arturas.androidtopics.MainActivity.MainActivity
-import lt.arturas.androidtopics.MainActivity.MainActivityViewModel
+import lt.arturas.androidtopics.main_activity.MainActivity
 import lt.arturas.androidtopics.R
-import lt.arturas.androidtopics.Repository.Item
 import lt.arturas.androidtopics.databinding.ActivitySecondBinding
-import lt.arturas.androidtopics.getExtraFromParcelable
 
 class SecondActivity2 : ActivityLifecycles() {
 
@@ -35,7 +32,9 @@ class SecondActivity2 : ActivityLifecycles() {
             }
         )
 
-        activityViewModel.fetchItem()
+        activityViewModel.fetchItem(
+            intent.getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID, -1)
+        )
 
         getIntentExtra()
         //just for merging purposes: commit02
@@ -64,31 +63,33 @@ class SecondActivity2 : ActivityLifecycles() {
     private fun getIntentExtra() = intent.getIntExtra(MainActivity.MAIN_ACTIVITY_ITEM_INTENT_ID, -1)
 
     fun onClickCloseButton(view: View) {
-            finish()
+        finish()
     }
 
     fun onClickSaveButton() {
 
-            val finishIntent = Intent()
+        val finishIntent = Intent()
 
-            finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, binding.item)
+        finishIntent.putExtra(SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT, binding.item)
 
-            if (binding.idEditText.text.toString().toInt() < 0) {
-                finishIntentStatus = RESULT_CANCELED
-            }
+        if (binding.idEditText.text.toString().toInt() < 0) {
+            finishIntentStatus = RESULT_CANCELED
+        }
 
-            setResult(finishIntentStatus, finishIntent)
-            finish()
+        setResult(finishIntentStatus, finishIntent)
+        finish()
     }
 
     companion object {
         const val SECOND_ACTIVITY_ITEM_INTENT_RETURN_OBJECT =
             "lt.arturas.androidtopics.secondactivity_item_intent_return_object"
         const val SECOND_ACTIVITY_ITEM_SAVE_INSTANCE_STATE =
-        "lt.arturas.androidtopics.secondactivity_item"
+            "lt.arturas.androidtopics.secondactivity_item"
         const val SECOND_ACTIVITY_ITEM_ID = "lt.arturas.androidtopics.secondactivity_item_id"
-        const val SECOND_ACTIVITY_ITEM_TEXT01 = "lt.arturas.androidtopics.secondactivity_item_text01"
-        const val SECOND_ACTIVITY_ITEM_TEXT02 = "lt.arturas.androidtopics.secondactivity_item_text02"
+        const val SECOND_ACTIVITY_ITEM_TEXT01 =
+            "lt.arturas.androidtopics.secondactivity_item_text01"
+        const val SECOND_ACTIVITY_ITEM_TEXT02 =
+            "lt.arturas.androidtopics.secondactivity_item_text02"
         const val SECOND_ACTIVITY_FINISH_INTENT_STATUS =
             "lt.arturas.androidtopics.secondactivity_finish_intent_status"
 

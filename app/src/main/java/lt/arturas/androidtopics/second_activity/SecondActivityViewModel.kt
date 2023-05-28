@@ -1,10 +1,10 @@
-package lt.arturas.androidtopics.SecondActivity
+package lt.arturas.androidtopics.second_activity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import lt.arturas.androidtopics.Repository.Item
-import lt.arturas.androidtopics.Repository.ItemRepository
+import lt.arturas.androidtopics.repository.Item
+import lt.arturas.androidtopics.repository.ItemRepository
 
 class SecondActivityViewModel: ViewModel() {
 

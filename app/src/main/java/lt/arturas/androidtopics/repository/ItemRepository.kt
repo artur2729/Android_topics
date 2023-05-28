@@ -1,6 +1,4 @@
-package lt.arturas.androidtopics.Repository
-
-import lt.arturas.androidtopics.Repository.Item
+package lt.arturas.androidtopics.repository
 
 class ItemRepository {
 

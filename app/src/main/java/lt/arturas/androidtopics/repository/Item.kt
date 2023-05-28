@@ -1,11 +1,4 @@
-package lt.arturas.androidtopics.Repository
-
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
-import lt.arturas.androidtopics.databinding.ItemBinding
+package lt.arturas.androidtopics.repository
 
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel
