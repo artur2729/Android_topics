@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import lt.arturas.androidtopics.ActivityLifecycles
+import lt.arturas.androidtopics.R
 import lt.arturas.androidtopics.repository.Item
 import lt.arturas.androidtopics.second_activity.SecondActivity2
 import lt.arturas.androidtopics.databinding.ActivityMainBinding
@@ -20,8 +22,10 @@ class MainActivity : ActivityLifecycles() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.mainActivity = this
+        binding.viewModel = activityViewModel
+        binding.lifecycleOwner = this
 
         setUpListView()
 
@@ -52,11 +56,10 @@ class MainActivity : ActivityLifecycles() {
             }
         )
 
-        activityViewModel.isLoadingLiveData.observe(this) { isLoading ->
-
-            binding.loadingProgressBar.isVisible = isLoading
-            binding.itemListView.isVisible = !isLoading
-        }
+       // activityViewModel.isLoadingLiveData.observe(this) { isLoading ->
+       //     binding.loadingProgressBar.isVisible = isLoading
+        //    binding.itemListView.isVisible = !isLoading
+       // }
     }
 
     private fun setClickOpenItemDetails() {
