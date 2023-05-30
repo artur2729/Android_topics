@@ -9,7 +9,7 @@ class ItemRepository {
 
     fun getItem(id: Int) = items.find { it.id == id }
 
-    suspend fun getItems() = withContext(Dispatchers.IO){
+    suspend fun getItems() = withContext(Dispatchers.IO) {
         items
     }
 
@@ -33,11 +33,14 @@ class ItemRepository {
         }
     }
 
-    fun addDummyListOfItems() {
-        items.addAll(generateListOfItems())
+    suspend fun addDummyListOfItems() {
+        withContext(Dispatchers.IO) {
+            items.addAll(generateListOfItems())
+        }
     }
 
-    private fun generateListOfItems(): List<Item> {
+    private suspend fun generateListOfItems() = withContext(Dispatchers.IO) {
+
         val list = mutableListOf<Item>()
 
         for (number in 1..20) {
@@ -49,7 +52,9 @@ class ItemRepository {
             list.add(item)
         }
 
-        return list
+        return@withContext list
+
+
     }
 
     companion object {

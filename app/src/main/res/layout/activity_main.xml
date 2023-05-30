@@ -25,7 +25,7 @@
             android:id="@+id/itemListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.isLoadingLiveData() ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.isLoadingStateFlow() ? View.GONE : View.VISIBLE}"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginRight="32dp"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:visibility="@{viewModel.isLoadingLiveData() ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.isLoadingStateFlow() ? View.VISIBLE : View.GONE}"
             />
 
         <Button
