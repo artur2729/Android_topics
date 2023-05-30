@@ -31,9 +31,12 @@ class MainActivity : ActivityLifecycles() {
             }
         )
 
-        activityViewModel.fetchItems()
-
         setClickOpenItemDetails()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityViewModel.fetchItems()
     }
 
     private fun setUpListView() {
