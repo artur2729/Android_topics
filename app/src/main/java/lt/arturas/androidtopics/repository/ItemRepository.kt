@@ -7,7 +7,7 @@ class ItemRepository {
     fun getItem(id: Int) = items.find { it.id == id }
 
     fun addItem(item: Item) {
-        var newId = 0
+        var newId = 1
 
         if (!items.isEmpty()) {
             newId = items.maxBy { it.id }.id.inc()
