@@ -44,7 +44,7 @@ class MainActivity : ActivityLifecycles() {
         binding.itemListView.adapter = adapter
     }
 
-    private fun setClickOpenSecondActivity(view: View) {
+    fun setClickOpenSecondActivity(view: View) {
         startActivity(Intent(this, SecondActivity2::class.java))
     }
 
