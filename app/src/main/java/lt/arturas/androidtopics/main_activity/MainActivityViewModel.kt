@@ -8,12 +8,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import lt.arturas.androidtopics.repository.Item
 import lt.arturas.androidtopics.repository.ItemRepository
 
 class MainActivityViewModel: ViewModel(){
 
     private val _uiState = MutableStateFlow(MainActivityUIState())
     val uiState = _uiState.asStateFlow()
+
+    private val _isDeletedUiState = MutableStateFlow(false)
+    val isDeletedUiState = _isDeletedUiState
 
     fun fetchItems(){
 
@@ -35,6 +39,14 @@ class MainActivityViewModel: ViewModel(){
                     isLoading = false,
                     isListVisible = true
                 )
+            }
+        }
+    }
+
+    fun deleteItem(item: Item) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isDeletedUiState.update {
+                ItemRepository.instance.deleteItem(item)
             }
         }
     }

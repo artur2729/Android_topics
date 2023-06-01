@@ -57,6 +57,12 @@ class ItemRepository {
 
     }
 
+    suspend fun deleteItem(item: Item) =
+        withContext(Dispatchers.IO){
+            items.remove(item)
+        }
+
+
     companion object {
         val instance: ItemRepository = ItemRepository()
     }
