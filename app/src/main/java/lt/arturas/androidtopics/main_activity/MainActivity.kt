@@ -67,7 +67,7 @@ class MainActivity : ActivityLifecycles() {
                 activityViewModel.isDeletedUiState.collect { displayUIState ->
                     if (displayUIState.isDeleted) {
                         displaySnackBar("Item was deleted from repository")
-                        adapter.remove(displayUiState.item)  //fix
+                        adapter.remove(displayUIState.item)  //fix
                     } else {
                         displaySnackBar("Item wasn't deleted from repository")
                     }
