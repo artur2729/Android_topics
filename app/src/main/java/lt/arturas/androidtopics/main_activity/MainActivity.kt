@@ -62,13 +62,13 @@ class MainActivity : ActivityLifecycles() {
             }
         }
 
-        lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                activityViewModel.isDeletedUiState.collect{
-                    isDeleted->
-                    if(isDeleted){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.isDeletedUiState.collect { displayUIState ->
+                    if (displayUIState.isDeleted) {
                         displaySnackBar("Item was deleted from repository")
-                    }else{
+                        adapter.remove(displayUiState.item)  //fix
+                    } else {
                         displaySnackBar("Item wasn't deleted from repository")
                     }
                 }
@@ -95,14 +95,12 @@ class MainActivity : ActivityLifecycles() {
         }
     }
 
-    private fun displayDeleteItemAlertDialog(item: Item){
-        AlertDialog.
-        Builder(this)
+    private fun displayDeleteItemAlertDialog(item: Item) {
+        AlertDialog.Builder(this)
             .setTitle("Delete")
             .setMessage("Do you really want to delete this item?")
             .setIcon(R.drawable.ic_clear_24)
-            .setPositiveButton("Yes"){
-                _,_ ->
+            .setPositiveButton("Yes") { _, _ ->
                 activityViewModel.deleteItem(item)
                 adapter.remove(item)
             }
@@ -110,7 +108,7 @@ class MainActivity : ActivityLifecycles() {
             .show()
     }
 
-    private fun displaySnackBar(message: String){
+    private fun displaySnackBar(message: String) {
         Snackbar
             .make(
                 binding.button,
