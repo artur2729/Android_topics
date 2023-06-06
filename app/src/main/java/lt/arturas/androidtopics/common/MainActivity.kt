@@ -1,9 +1,10 @@
-package lt.arturas.androidtopics
+package lt.arturas.androidtopics.common
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import lt.arturas.androidtopics.R
 
-class MainActivity : AppCompatActivity() {
+//ctrl alt l o
+class MainActivity : ActivityLifecyclesPresentation() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
