@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AbsListView
+import android.widget.AbsListView.OnScrollListener
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
@@ -32,8 +34,9 @@ class MainActivity : ActivityLifecycles() {
         binding.lifecycleOwner = this
 
         setUpListView()
-
+        onScrollListView()
         setUpObservables()  //ctrl + alt + m
+
 
         onItemLongClick()
         setClickOpenItemDetails()
@@ -42,6 +45,11 @@ class MainActivity : ActivityLifecycles() {
     override fun onResume() {
         super.onResume()
         activityViewModel.fetchItems()
+        if (adapter.getMaxId() != -1) {
+            binding.itemListView.smoothScrollToPosition(
+                activityViewModel.positionListViewStateFlow.value // - 2
+            )
+        }
     }
 
     fun setClickOpenSecondActivity(view: View) {
@@ -51,6 +59,30 @@ class MainActivity : ActivityLifecycles() {
     private fun setUpListView() {
         adapter = CustomAdapter(this)
         binding.itemListView.adapter = adapter
+    }
+
+    private fun onScrollListView() {
+        /*   binding.itemListView.setOnScrollListener(
+               object : OnScrollListener{
+                   override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {}
+
+                   override fun onScroll(p0: AbsListView?, position: Int, p2: Int, p3: Int) {
+                       if(activityViewModel.positionListViewStateFlow.value != position){
+                           activityViewModel.savePositionListView(position)
+                       }
+                       //displaySnackBar("First visible item index: $position")
+                   }
+
+               }
+           )
+         */
+
+        binding.itemListView.setOnScrollChangeListener { _, _, _, _, _ ->
+            val position = binding.itemListView.firstVisiblePosition
+            if (activityViewModel.positionListViewStateFlow.value != position) {
+                activityViewModel.savePositionListView(position)
+            }
+        }
     }
 
     private fun setUpObservables() {
@@ -71,6 +103,14 @@ class MainActivity : ActivityLifecycles() {
                     } else {
                         displaySnackBar("Item wasn't deleted from repository")
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch() {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.positionListViewStateFlow.collect { firstVisiblePosition ->
+                    displaySnackBar("First visible item index: $firstVisiblePosition")
                 }
             }
         }
