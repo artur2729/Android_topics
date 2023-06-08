@@ -11,6 +11,10 @@ class MainActivity : ActivityLifecyclesPresentation() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        openFragment()
+    }
+
+    private fun openFragment() {
         supportFragmentManager.commit {
             replace(
                 R.id.fragmentContainerView,
