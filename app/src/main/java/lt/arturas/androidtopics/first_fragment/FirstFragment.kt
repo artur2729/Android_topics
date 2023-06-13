@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -27,8 +28,12 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Call from First Fragment
         binding.openButton.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
+            val bundle = bundleOf("name_of_key" to "Some data from First Fragment")
+            view.findNavController()
+                .navigate(R.id.action_firstFragment_to_secondFragment, bundle)
         }
     }
 
