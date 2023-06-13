@@ -30,10 +30,12 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Call from First Fragment
+        // Call from First Fragment
         binding.openButton.setOnClickListener { view ->
-            val bundle = bundleOf("name_of_key" to "Some data from First Fragment")
-            view.findNavController()
-                .navigate(R.id.action_firstFragment_to_secondFragment, bundle)
+            val action =
+                FirstFragmentDirections
+                    .actionFirstFragmentToSecondFragment("Some data from 1st Frg")
+            view.findNavController().navigate(action)
         }
     }
 
