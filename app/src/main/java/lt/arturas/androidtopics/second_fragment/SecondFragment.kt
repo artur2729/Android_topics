@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import lt.arturas.androidtopics.R
-import lt.arturas.androidtopics.common.FragmentLifecyclesPresentation
 
-class SecondFragment : FragmentLifecyclesPresentation() {
+class SecondFragment : Fragment() {
 
     private val viewModel: SecondFragmentViewModel by viewModels()
 

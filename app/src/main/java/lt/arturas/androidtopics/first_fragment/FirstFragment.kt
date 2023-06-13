@@ -1,16 +1,14 @@
 package lt.arturas.androidtopics.first_fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import lt.arturas.androidtopics.R
-import lt.arturas.androidtopics.common.FragmentLifecyclesPresentation
 
-class FirstFragment : FragmentLifecyclesPresentation() {
+class FirstFragment : Fragment() {
 
     private val viewModel: FirstFragmentViewModel by viewModels()
 
