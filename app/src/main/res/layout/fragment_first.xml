@@ -7,13 +7,22 @@
     tools:context=".first_fragment.FirstFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="First fragment"
         android:layout_gravity="center"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textColor="#2b2d42"
         android:textStyle="bold"
+        />
+    <Button
+        android:id="@+id/openButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="32dp"
+        android:text="Open"
         />
 
 </FrameLayout>
