@@ -25,10 +25,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openSecondFragment(){
-        setCurrentFragment(SecondFragment.newInstance(),SecondFragment.TAG, true)
+        setCurrentFragment(SecondFragment.newInstance(),SecondFragment.TAG)
     }
 
-    private fun open
+    private fun openFirstFragment(){
+        setCurrentFragment(FirstFragment.newInstance(),FirstFragment.TAG)
+    }
 
     private fun setCurrentFragment(fragment: Fragment, tag:String){
         supportFragmentManager.commit {

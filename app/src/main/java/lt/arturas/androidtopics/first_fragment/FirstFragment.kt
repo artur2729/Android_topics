@@ -10,10 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import lt.arturas.androidtopics.R
 import lt.arturas.androidtopics.common.MainActivity
 import lt.arturas.androidtopics.databinding.FragmentFirstBinding
+import lt.arturas.androidtopics.first_fragment.recycleview.CustomAdapter
+import lt.arturas.androidtopics.repository.newsapi.Article
 import java.util.Collections.list
 
 class FirstFragment : Fragment() {
@@ -66,6 +71,24 @@ class FirstFragment : Fragment() {
         binding.openButton.setOnClickListener{
             (activity as MainActivity).openSecondFragment()
         }
+    }
+
+    private fun setUpRecyclerView() {
+        binding.articleRecyclerView.apply {
+            recyclerAdapter = CustomAdapter { article -> onArticlesItemClick(article) }
+            adapter = recyclerAdapter
+            layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+        }
+    }
+    private fun onArticlesItemClick(article: Article) {
+        Snackbar
+            .make(binding.openButton, "Clicked ${article.title}", Snackbar.LENGTH_LONG)
+            .show()
+    }
+    private fun submitArticleList(list: List<Article>) {
+        recyclerAdapter?.submitList(list)
+        binding.articleRecyclerView.adapter = recyclerAdapter
     }
 
     private fun topNewsStateFlow() {
