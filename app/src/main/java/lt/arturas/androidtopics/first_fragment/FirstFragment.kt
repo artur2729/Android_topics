@@ -33,13 +33,18 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchUsers()
+//        viewModel.fetchUsers()
+        viewModel.fetchTopNews()
+//        userStateFlow()
+        topNewsStateFlow()
+    }
 
+    private fun userStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 viewModel.itemsStateFlow.collect { response ->
-                    //Log.i(TAG, "onViewCreated: ${response?.userList}")
+                    Log.i(TAG, "onViewCreated: ${response?.userList}")
                     val list = response?.userList
                     //var myText = " "
                     if (list != null) {
@@ -49,7 +54,25 @@ class FirstFragment : Fragment() {
                         val stringBuilder = buildString {  //prideda o ne kuria, todel geresnis
                             list.forEach { append("$it\n\n") }
                         }
-                        binding.textView.text = stringBuilder.toString()
+                        binding.textView.text = stringBuilder
+                    }
+                }
+            }
+        }
+    }
+
+    private fun topNewsStateFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.topNewsStateFlow.collect { response ->
+//                    Log.i(TAG, "onViewCreated: ${response?.userList}")
+                    val list = response?.articles
+                    if (list != null) {
+                        val stringBuilder = buildString {
+                            list.forEach { append("$it\n\n") }
+                        }
+                        binding.textView.text = stringBuilder
                     }
                 }
             }
