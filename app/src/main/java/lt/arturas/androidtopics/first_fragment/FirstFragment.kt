@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import lt.arturas.androidtopics.R
+import lt.arturas.androidtopics.common.MainActivity
 import lt.arturas.androidtopics.databinding.FragmentFirstBinding
 import java.util.Collections.list
 
@@ -58,6 +59,12 @@ class FirstFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+   fun clickOpenButton(){
+        binding.openButton.setOnClickListener{
+            (activity as MainActivity).openSecondFragment()
         }
     }
 
