@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import lt.arturas.androidtopics.R
 import lt.arturas.androidtopics.databinding.FragmentFirstBinding
+import java.util.Collections.list
 
 class FirstFragment : Fragment() {
 
@@ -31,11 +32,25 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.fetchUsers()
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.itemsStateFlow.collect { listOfItems ->
-                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
+
+                viewModel.itemsStateFlow.collect { response ->
+                    //Log.i(TAG, "onViewCreated: ${response?.userList}")
+                    val list = response?.userList
+                    //var myText = " "
+                    if (list != null) {
+                        //for (item in list) {              //suletina nes sukuria objektus po 1
+                        //    myText += "${item}\n\n"
+                        //}
+                        val stringBuilder = buildString {  //prideda o ne kuria, todel geresnis
+                            list.forEach { append("$it\n\n") }
+                        }
+                        binding.textView.text = stringBuilder.toString()
+                    }
                 }
             }
         }
