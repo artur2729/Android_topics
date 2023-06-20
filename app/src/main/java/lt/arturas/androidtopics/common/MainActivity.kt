@@ -14,34 +14,32 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.commit {
-            replace(
-                R.id.fragmentContainerView,
-                FirstFragment.newInstance(),
-                "first_fragment"
-            )
-            setReorderingAllowed(true)
+        if (savedInstanceState == null) {
+            openFirstFragment()
         }
     }
 
-    fun openSecondFragment(){
-        setCurrentFragment(SecondFragment.newInstance(),SecondFragment.TAG)
+    fun openSecondFragment() {
+        setCurrentFragment(SecondFragment.newInstance(), SecondFragment.TAG, true)
     }
 
-    private fun openFirstFragment(){
-        setCurrentFragment(FirstFragment.newInstance(),FirstFragment.TAG)
+    private fun openFirstFragment() {
+        setCurrentFragment(FirstFragment.newInstance(), FirstFragment.TAG)
     }
 
-    private fun setCurrentFragment(fragment: Fragment, tag:String){
+    private fun setCurrentFragment(fragment: Fragment, tag: String, addBackStack: Boolean = false) {
         supportFragmentManager.commit {
             replace(
                 R.id.fragmentContainerView,
-                FirstFragment.newInstance(),
-                "first_fragment"
+                fragment,
+                tag
             )
+
             setReorderingAllowed(true)
 
-
+            if (addBackStack){
+                addToBackStack(tag)
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ import java.util.Collections.list
 class FirstFragment : Fragment() {
 
     private val viewModel: FirstFragmentViewModel by viewModels()
+    private var recyclerAdapter: CustomAdapter? = null
 
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
@@ -39,36 +40,19 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isSwipeRefreshing(true)
 //        viewModel.fetchUsers()
-        viewModel.fetchTopNews()
+        viewModel.fetchTopNew()
+
+        clickOpenButton()
+        setUpRecyclerView()
+        onArticlesRefreshListener()
 //        userStateFlow()
-        topNewsStateFlow()
+        observeTopNewsStateFlow()
     }
 
-    private fun userStateFlow() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.itemsStateFlow.collect { response ->
-                    Log.i(TAG, "onViewCreated: ${response?.userList}")
-                    val list = response?.userList
-                    //var myText = " "
-                    if (list != null) {
-                        //for (item in list) {              //suletina nes sukuria objektus po 1
-                        //    myText += "${item}\n\n"
-                        //}
-                        val stringBuilder = buildString {  //prideda o ne kuria, todel geresnis
-                            list.forEach { append("$it\n\n") }
-                        }
-                        binding.textView.text = stringBuilder
-                    }
-                }
-            }
-        }
-    }
-
-   fun clickOpenButton(){
-        binding.openButton.setOnClickListener{
+    private fun clickOpenButton() {
+        binding.openButton.setOnClickListener {
             (activity as MainActivity).openSecondFragment()
         }
     }
@@ -81,33 +65,78 @@ class FirstFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
+
     private fun onArticlesItemClick(article: Article) {
         Snackbar
             .make(binding.openButton, "Clicked ${article.title}", Snackbar.LENGTH_LONG)
             .show()
     }
+
     private fun submitArticleList(list: List<Article>) {
         recyclerAdapter?.submitList(list)
         binding.articleRecyclerView.adapter = recyclerAdapter
     }
 
-    private fun topNewsStateFlow() {
+    private fun onArticlesRefreshListener() {
+        binding.swipeArticleRefreshLayout.setOnRefreshListener {
+            viewModel.fetchTopNew(40)
+            isSwipeRefreshing(true)
+        }
+    }
+
+    private fun isSwipeRefreshing(isEnabled: Boolean) {
+        binding.swipeArticleRefreshLayout.isRefreshing = isEnabled
+    }
+
+    private fun userStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.topNewsStateFlow.collect { response ->
-//                    Log.i(TAG, "onViewCreated: ${response?.userList}")
-                    val list = response?.articles
+                viewModel.itemsStateFlow.collect { response ->
+                    //                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
+                    val list = response?.userList
+
+                    Log.i(TAG, "onViewCreated: $list")
+                    //                    var myText = ""
+
                     if (list != null) {
+                        //                        for (item in list){
+                        //                            myText += "${item}\n\n"
+                        //                        }
+
                         val stringBuilder = buildString {
                             list.forEach { append("$it\n\n") }
                         }
-                        binding.textView.text = stringBuilder
+//                        binding.textView.text = stringBuilder
                     }
                 }
             }
         }
     }
+
+    private fun observeTopNewsStateFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.topNewsStateFlow.collect { response ->
+                    //                    Log.i(TAG, "onViewCreated: ${listOfItems?.userList}")
+                    val list = response?.articles
+
+                    Log.i(TAG, "onViewCreated: $list")
+
+                    if (list != null) {
+//                        val stringBuilder = buildString {
+//                            list.forEach { append("$it\n\n") }
+//                        }
+//                        binding.textView.text = stringBuilder
+                        submitArticleList(list)
+                        isSwipeRefreshing(false)
+                    }
+                }
+            }
+        }
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -115,7 +144,7 @@ class FirstFragment : Fragment() {
     }
 
     companion object {
-        const val TAG = "my_first_fragment"
+        const val TAG = "first_fragment"
         fun newInstance() = FirstFragment()
     }
 }

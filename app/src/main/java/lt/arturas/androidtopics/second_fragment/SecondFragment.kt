@@ -36,12 +36,19 @@ class SecondFragment : Fragment() {
         observeItemStateFlow()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun observeItemStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 viewModel.itemsStateFlow.collect { response ->
+
                     val user = response?.data
+                    Log.i(FirstFragment.TAG, "onViewCreated: $user")
+
                     if (user != null) {
                         binding.textView.text = user.toString()
                     }
@@ -53,10 +60,5 @@ class SecondFragment : Fragment() {
     companion object {
         const val TAG = "my_second_fragment"
         fun newInstance() = SecondFragment()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

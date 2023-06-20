@@ -29,10 +29,13 @@ class FirstFragmentViewModel : ViewModel() {
         MutableStateFlow(TopHeadlinesResponse())
     val topNewsStateFlow = _topNewsStateFlow.asStateFlow()
 
-    fun fetchTopNews(){
+    fun fetchTopNew(pageSize: Int = 20){
         viewModelScope.launch(Dispatchers.IO) {
 //            val resp = NewsApiServiceClient.providesApiService().getTopNews("us")
-            val resp = NewsApiServiceClientWithOkHttp.providesApiService().getTopNews("us")
+            val resp = NewsApiServiceClientWithOkHttp.providesApiService().getTopNews(
+                country =  "us",
+                pageSize = pageSize
+            )
             _topNewsStateFlow.value = resp.body()
         }
     }
