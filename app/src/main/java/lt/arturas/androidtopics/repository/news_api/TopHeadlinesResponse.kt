@@ -1,4 +1,4 @@
-package lt.arturas.androidtopics.repository.newsapi
+package lt.arturas.androidtopics.repository.news_api
 
 data class TopHeadlinesResponse(
     val status: String = "",

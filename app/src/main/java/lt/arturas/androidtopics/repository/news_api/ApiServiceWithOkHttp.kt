@@ -1,4 +1,4 @@
-package lt.arturas.androidtopics.repository.newsapi
+package lt.arturas.androidtopics.repository.news_api
 
 import retrofit2.Response
 import retrofit2.http.GET

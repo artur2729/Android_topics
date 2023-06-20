@@ -2,15 +2,15 @@ package lt.arturas.androidtopics.first_fragment.recycleview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import lt.arturas.androidtopics.databinding.FragmentArticleListItemBinding
 import lt.arturas.androidtopics.first_fragment.CustomViewHolder
-import lt.arturas.androidtopics.repository.newsapi.Article
+import lt.arturas.androidtopics.repository.news_api.Article
 
 class CustomAdapter(
     private val onClick: (Article) -> Unit
-) : androidx.recyclerview.widget.ListAdapter<Article, CustomViewHolder>(
+) : ListAdapter<Article, CustomViewHolder>(
     Comparator()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CustomViewHolder(

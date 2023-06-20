@@ -1,4 +1,4 @@
-package lt.arturas.androidtopics.repository.newsapi
+package lt.arturas.androidtopics.repository.news_api
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -11,7 +11,7 @@ object NewsApiServiceClientWithOkHttp {
     val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val newRequest = chain.request().newBuilder()
-                .addHeader("x-api-key", "a29f539bc9ad4aa6ade2f05a6e848e3d") //a29f539bc9ad4aa6ade2f05a6e848e3d  //144e0c5c31324ea199b7e9cb410e96d0
+                .addHeader("x-api-key", "a29f539bc9ad4aa6ade2f05a6e848e3d")  //a29f539bc9ad4aa6ade2f05a6e848e3d
                 .build()
             chain.proceed(newRequest)
         }
@@ -30,3 +30,5 @@ object NewsApiServiceClientWithOkHttp {
             .create(ApiServiceWithOkHttp::class.java)
     }
 }
+
+//a29f539bc9ad4aa6ade2f05a6e848e3d

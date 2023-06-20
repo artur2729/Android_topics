@@ -6,9 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import lt.arturas.androidtopics.repository.newsapi.NewsApiServiceClient
-import lt.arturas.androidtopics.repository.newsapi.NewsApiServiceClientWithOkHttp
-import lt.arturas.androidtopics.repository.newsapi.TopHeadlinesResponse
+import lt.arturas.androidtopics.repository.news_api.NewsApiServiceClientWithOkHttp
+import lt.arturas.androidtopics.repository.news_api.TopHeadlinesResponse
 import lt.arturas.androidtopics.repository.reqres.ReqresServiceClient
 import lt.arturas.androidtopics.repository.reqres.UsersResponse
 

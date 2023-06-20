@@ -1,6 +1,7 @@
 package lt.arturas.androidtopics.second_fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 import lt.arturas.androidtopics.R
 import lt.arturas.androidtopics.databinding.FragmentFirstBinding
 import lt.arturas.androidtopics.databinding.FragmentSecondBinding
+import lt.arturas.androidtopics.first_fragment.FirstFragment
 
 class SecondFragment : Fragment() {
 
@@ -31,6 +33,7 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.fetchUsers((1..12).random())
 
         observeItemStateFlow()
@@ -58,7 +61,7 @@ class SecondFragment : Fragment() {
     }
 
     companion object {
-        const val TAG = "my_second_fragment"
+        const val TAG = "second_fragment"
         fun newInstance() = SecondFragment()
     }
 }

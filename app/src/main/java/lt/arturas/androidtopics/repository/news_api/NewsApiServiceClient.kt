@@ -1,4 +1,4 @@
-package lt.arturas.androidtopics.repository.newsapi
+package lt.arturas.androidtopics.repository.news_api
 
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit

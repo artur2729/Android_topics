@@ -1,6 +1,5 @@
-package lt.arturas.androidtopics.repository.newsapi
+package lt.arturas.androidtopics.repository.news_api
 
-import lt.arturas.androidtopics.repository.newsapi.TopHeadlinesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

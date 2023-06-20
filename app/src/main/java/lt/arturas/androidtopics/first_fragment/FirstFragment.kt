@@ -14,12 +14,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import lt.arturas.androidtopics.R
 import lt.arturas.androidtopics.common.MainActivity
 import lt.arturas.androidtopics.databinding.FragmentFirstBinding
 import lt.arturas.androidtopics.first_fragment.recycleview.CustomAdapter
-import lt.arturas.androidtopics.repository.newsapi.Article
-import java.util.Collections.list
+import lt.arturas.androidtopics.repository.news_api.Article
 
 class FirstFragment : Fragment() {
 

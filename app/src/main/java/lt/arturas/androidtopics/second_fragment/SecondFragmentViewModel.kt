@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import lt.arturas.androidtopics.repository.reqres.ReqresServiceClient
 import lt.arturas.androidtopics.repository.reqres.UserResponse
-import lt.arturas.androidtopics.repository.reqres.UsersResponse
 
 class SecondFragmentViewModel : ViewModel() {
     private val _itemsStateFlow: MutableStateFlow<UserResponse?> =
@@ -16,7 +15,7 @@ class SecondFragmentViewModel : ViewModel() {
     val itemsStateFlow = _itemsStateFlow.asStateFlow()
 
     fun fetchUsers(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) { //Dispatchers.IO
             val resp = ReqresServiceClient.providesApiService().getUserDetails(id)
             _itemsStateFlow.value = resp.body()
         }
